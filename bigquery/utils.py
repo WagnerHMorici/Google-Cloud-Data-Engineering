@@ -20,3 +20,18 @@ def create_table(bigquery_client, dataset_name, table_name, schema):
     table = bigquery_client.create_table(table)
 
     print('>> Table created')
+
+
+def write_data(bigquery_client, dataset_name, table_name, data):
+    
+    dataset_ref = bigquery_client.dataset(dataset_name)
+
+    table_ref = dataset_ref.table(table_name)
+
+    table = bigquery_client.get_table(table_ref)
+    
+    bigquery_client.insert_rows(table, data)
+
+
+
+    print('>> Inserted Data')
