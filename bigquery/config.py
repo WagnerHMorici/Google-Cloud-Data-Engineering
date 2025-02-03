@@ -10,3 +10,5 @@ GCS_BUCKET = dconfig('GCS_BUCKET')
 
 BQ_DATASET = dconfig('BQ_DATASET')
 BQ_TABLE = dconfig('BQ_TABLE')
+
+CSV_PATH = dconfig('CSV_PATH')

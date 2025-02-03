@@ -1,5 +1,7 @@
 from google.cloud import bigquery
 
+import csv
+
 
 def create_dataset(bigquery_client, dataset_name):
     dataset_id = f"{bigquery_client.project}.{dataset_name}"
@@ -9,6 +11,7 @@ def create_dataset(bigquery_client, dataset_name):
     dataset = bigquery_client.create_dataset(dataset_ref, exists_ok=True)
 
     print(">> Dataset Created ")
+
 
 def create_table(bigquery_client, dataset_name, table_name, schema):
     
@@ -32,6 +35,22 @@ def write_data(bigquery_client, dataset_name, table_name, data):
     
     bigquery_client.insert_rows(table, data)
 
-
-
     print('>> Inserted Data')
+    
+
+def read_csv(path):
+    with open(path, 'r') as fl:
+        reader = csv.reader(fl, delimiter=',')
+        data = list(reader)[1:]
+
+    return data
+
+
+def query_data(bigquery_client, dataset_name, table_name, query):
+    
+    query = bigquery_client.query(query)
+
+    
+    results = query.result()
+    
+    return results

@@ -1,7 +1,7 @@
 from google.cloud import bigquery
 from google.api_core.exceptions import Conflict
 
-from utils import create_dataset, create_table
+from utils import query_data
 import config
 
 
@@ -12,17 +12,9 @@ table_name = config.BQ_TABLE
 
 bigquery_client = bigquery.Client.from_service_account_json(service_account_json_path)
 
-write_data(bigquery_client, dataset_name)
+query = f'''SELECT Date, Close from {dataset_name}.{table_name}'''
 
+data = query_data(bigquery_client, dataset_name, table_name, query)
 
-schema = [
-    bigquery.SchemaField("Date", "DATE", mode="REQUIRED"),
-    bigquery.SchemaField("Adj Close", "FLOAT", mode="REQUIRED"),
-    bigquery.SchemaField("Close", "FLOAT", mode="REQUIRED"),
-    bigquery.SchemaField("High", "FLOAT", mode="REQUIRED"),
-    bigquery.SchemaField("Low", "FLOAT", mode="REQUIRED"),
-    bigquery.SchemaField("Open", "FLOAT", mode="REQUIRED"),
-    bigquery.SchemaField("Volume", "FLOAT", mode="REQUIRED"),
-]
-
-create_table(bigquery_client, dataset_name, table_name, schema)
+for row in data:
+    print(row)
