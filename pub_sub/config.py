@@ -7,3 +7,5 @@ GCP_ZONE = dconfig('GCP_ZONE')
 
 
 GCS_BUCKET = dconfig('GCS_BUCKET')
+
+TOPIC_NAME = dconfig('TOPIC_NAME')
